@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function refreshWeather() {
+            $.get("/weatherapp")
+                .done(function(data) {
+                    $("#weatherTable").empty();
+                    $.each(data, function(key, value) {
+                        $("#weatherTable").append("<tr><td>" + key + "</td><td>" + value + "</td></tr>");
+                    });
+                })
+                .fail(function(xhr, status, error) {
+                    var errorMessage = "An error occurred: " + error;
+                    $("#weatherTable").empty().html("<tr><td colspan='2'>" + errorMessage + "</td></tr>");
+                });
+        }
+    </script>
+</head>
+<body>
+<h1>Weather Information</h1>
+<table id="weatherTable">
+    <tr>
+        <th>Time</th>
+        <th>Weather</th>
+    </tr>
+</table>
+<button onclick="refreshWeather()">Refresh</button>
+<script>
+    refreshWeather();
+</script>
+</body>
+</html>
